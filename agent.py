@@ -12,8 +12,8 @@ db = SQLDatabase.from_uri("sqlite:///superstore.db")
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
     temperature=0,
-    groq_api_key=st.secrets["GROQ_API_KEY"]  # Load from Streamlit secrets
-
+    groq_api_key=st.secrets["GROQ_API_KEY"],  # Load from Streamlit secrets
+    max_tokens=1024,
 )
 
 
@@ -45,7 +45,8 @@ agent_executor = create_sql_agent(
     db=db,
     verbose=True,
     agent_type="tool-calling",           # better reliability with Groq models
-    prefix=schema_prefix
+    prefix=schema_prefix,
+    max_iterations=30,
 )
 
 # Simple function to ask questions
